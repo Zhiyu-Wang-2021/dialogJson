@@ -1,5 +1,8 @@
 import json
 
+import data
+from data import *
+
 
 # "intents":[
 #     {
@@ -17,10 +20,11 @@ def intents():
     result = [
         intent(
             "hours_info",
-            ["a", "b"]
-        ),intent(
+            IntentExamples.hour_info
+        ),
+        intent(
             "location_info",
-            ["a", "b"]
+            IntentExamples.location_info
         )
     ]
     return '"intents": ' + json.dumps(result) + ','
@@ -56,23 +60,22 @@ def intent(name, examples, description='-'):
 #     }
 # ],
 def entities():
-    result = [entity(
-        "test",
-        [
-            ["A", "b", "c"],
-            ["B", "e", "d"]
-        ],
-    )]
+    result = [
+        entity(
+            "uk_location",
+            data.EntityValues.location,
+        )
+    ]
     return '"entities": ' + json.dumps(result) + ','
 
 
 def entity(name, values, fuzzy_match=True):
     return {
         "entity": name,
-        "values": list(map(lambda arr: {
+        "values": list(map(lambda location_tuple: {
             "type": "synonyms",
-            "value": arr[0],
-            "synonyms": arr[1:]
+            "value": location_tuple[0],
+            "synonyms": location_tuple[1]
         }, values)),
         "fuzzy_match": fuzzy_match
     }
@@ -220,7 +223,9 @@ def other():
         """.replace("\n", '').replace(" ", "")
 
 
-def get_json(data):
+#
+def get_json():
     with open("chatbot.json", "w") as f:
         f.write("{" + intents() + entities() + dialog_nodes() + other() + "}")
+        print('json generated')
         return 'success'
