@@ -1,6 +1,6 @@
 import json
 
-import data
+import dialogJson.data as data
 
 
 class DialogJson:
@@ -411,3 +411,7 @@ class DialogJson:
             f.write("{" + self._intents() + self._entities() + self._dialog_nodes() + self._other() + "}")
             print('json generated')
             return 'success'
+
+    def get_json(self):
+        print('json generated')
+        return json.loads("{" + self._intents() + self._entities() + self._dialog_nodes() + self._other() + "}")
