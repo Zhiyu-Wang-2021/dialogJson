@@ -1,6 +1,6 @@
 class Answers:
 
-    def __init__(self):
-        self.operation_hour = None
-        self.location = None
+    def __init__(self, data):
+        self.operation_hour = data["operation_hour"]
+        self.location = data["location"]
 
